@@ -15,6 +15,19 @@ spring:
     user: ${spring.r2dbc.username}
     password: ${spring.r2dbc.password}
     url: jdbc:postgresql://localhost:5432/polardb_order
+  config:
+    import: "optional:configserver:"
+  cloud:
+    config:
+      uri: http://localhost:8888
+      request-connect-timeout: 10000 # 10s
+      request-read-timeout: 10000 # 10s
+      fail-fast: false # In production set to true
+      retry:
+        max-attempts: 6
+        initial-interval: 1000 # 1s
+        max-interval: 2000 # 2s
+        multiplier: 1.1
 
 server:
   port: 9002
