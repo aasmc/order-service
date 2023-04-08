@@ -27,6 +27,8 @@ public class OrderJsonTest {
                 OrderStatus.ACCEPTED,
                 Instant.now(),
                 Instant.now(),
+                "jon",
+                "marlena",
                 21);
         var jsonContent = json.write(order);
         assertThat(jsonContent).extractingJsonPathNumberValue("@.id")
@@ -45,8 +47,11 @@ public class OrderJsonTest {
                 .isEqualTo(order.createdDate().toString());
         assertThat(jsonContent).extractingJsonPathStringValue("@.lastModifiedDate")
                 .isEqualTo(order.lastModifiedDate().toString());
+        assertThat(jsonContent).extractingJsonPathStringValue("@.createdBy")
+                .isEqualTo(order.createdBy());
+        assertThat(jsonContent).extractingJsonPathStringValue("@.lastModifiedBy")
+                .isEqualTo(order.lastModifiedBy());
         assertThat(jsonContent).extractingJsonPathNumberValue("@.version")
                 .isEqualTo(order.version());
-
     }
 }

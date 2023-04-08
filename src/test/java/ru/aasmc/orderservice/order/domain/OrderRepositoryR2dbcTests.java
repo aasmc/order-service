@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -12,6 +13,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 import reactor.test.StepVerifier;
 import ru.aasmc.orderservice.config.DataConfig;
+
+import java.util.Objects;
 
 @DataR2dbcTest
 @Import(DataConfig.class)
@@ -50,26 +53,24 @@ public class OrderRepositoryR2dbcTests {
                 .expectNextMatches(order -> order.status().equals(OrderStatus.REJECTED))
                 .verifyComplete();
     }
+
+    @Test
+    void whenCreateOrderNotAuthenticatedThenNoAuditMetadata() {
+        var rejectedOrder = OrderService.buildRejectedOrder( "1234567890", 3);
+        StepVerifier.create(orderRepository.save(rejectedOrder))
+                .expectNextMatches(order -> Objects.isNull(order.createdBy()) &&
+                        Objects.isNull(order.lastModifiedBy()))
+                .verifyComplete();
+    }
+
+    @Test
+    @WithMockUser("marlena")
+    void whenCreateOrderAuthenticatedThenAuditMetadata() {
+        var rejectedOrder = OrderService.buildRejectedOrder( "1234567890", 3);
+        StepVerifier.create(orderRepository.save(rejectedOrder))
+                .expectNextMatches(order -> order.createdBy().equals("marlena") &&
+                        order.lastModifiedBy().equals("marlena"))
+                .verifyComplete();
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

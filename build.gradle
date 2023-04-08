@@ -21,6 +21,7 @@ configurations {
 ext {
 	set('testcontainersVersion', "1.17.6")
 	set('springCloudVersion', "2021.0.3")
+	set('testKeycloakVersion', "2.3.0")
 }
 
 dependencies {
@@ -30,6 +31,7 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
 	implementation 'org.springframework.retry:spring-retry'
 	implementation 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 
 	runtimeOnly 'org.flywaydb:flyway-core'
 	runtimeOnly 'org.postgresql:postgresql'
@@ -44,6 +46,9 @@ dependencies {
 	testImplementation 'org.testcontainers:junit-jupiter'
 	testImplementation 'org.testcontainers:postgresql'
 	testImplementation 'org.testcontainers:r2dbc'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.testcontainers:junit-jupiter'
+	testImplementation "com.github.dasniko:testcontainers-keycloak:${testKeycloakVersion}"
 	testImplementation("org.springframework.cloud:spring-cloud-stream") {
 		artifact {
 			name = "spring-cloud-stream"

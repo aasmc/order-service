@@ -2,9 +2,7 @@ package ru.aasmc.orderservice.book;
 
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -13,6 +11,7 @@ import reactor.test.StepVerifier;
 
 import java.io.IOException;
 
+@TestMethodOrder(MethodOrderer.Random.class)
 public class BookClientTests {
     private MockWebServer mockWebServer;
     private BookClient bookClient;
@@ -68,31 +67,3 @@ public class BookClientTests {
                 .verifyComplete();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
