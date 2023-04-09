@@ -14,6 +14,7 @@ public class SecurityConfig {
         return http
                 .authorizeExchange(exchange -> exchange
                         // all requests require authentication
+                        .pathMatchers("/actuator/**").permitAll()
                         .anyExchange().authenticated())
                 // Enables OAuth2 Resource Server support using the default configuration
                 // based on JWT authentication
