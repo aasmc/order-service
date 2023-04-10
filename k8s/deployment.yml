@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: ghcr.io/aasmc/order-service
+          image: order-service
           imagePullPolicy: IfNotPresent
           lifecycle:
             preStop:
