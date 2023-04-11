@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
 import ru.aasmc.orderservice.order.domain.Order;
 import ru.aasmc.orderservice.order.domain.OrderService;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("orders")
